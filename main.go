@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -15,6 +17,10 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
+
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	router := gin.New()
 	router.Use(gin.Logger())
