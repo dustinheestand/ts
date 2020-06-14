@@ -1,5 +1,8 @@
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 github.com/dgrijalva/jwt-go
+# github.com/gorilla/websocket v1.4.2
+## explicit
+github.com/gorilla/websocket
 # github.com/heroku/x v0.0.24
 ## explicit
 github.com/heroku/x/hmetrics

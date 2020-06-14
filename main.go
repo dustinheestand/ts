@@ -1,14 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
 	"os"
 
+	"github.com/gorilla/websocket"
 	_ "github.com/heroku/x/hmetrics/onload"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+)
+
+var (
+	upgrader = websocket.Upgrader{}
 )
 
 type Template struct {
@@ -41,4 +47,26 @@ func main() {
 	})
 
 	e.Logger.Fatal(e.Start(":" + port))
+}
+
+func foo(c echo.Context) error {
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer ws.Close()
+	for {
+		// Write
+		err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
+		if err != nil {
+			c.Logger().Error(err)
+		}
+
+		// Read
+		_, msg, err := ws.ReadMessage()
+		if err != nil {
+			c.Logger().Error(err)
+		}
+		fmt.Printf("%s\n", msg)
+	}
 }
