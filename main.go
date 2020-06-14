@@ -3,7 +3,6 @@ package main
 import (
 	"html/template"
 	"io"
-	"log"
 	"net/http"
 	"os"
 
@@ -24,7 +23,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		port = "8000"
 	}
 
 	e := echo.New()
@@ -36,11 +35,9 @@ func main() {
 		templates: template.Must(template.ParseGlob("templates/*.tmpl.html")),
 	}
 	e.Renderer = t
-	router.LoadHTMLGlob("templates/*.tmpl.html")
 
-	e.GET("/", func(ctx echo.Context) error {
-		return c.Render(http.StatusOK, "")
-		ctx.HTML(http.StatusOK, "index.tmpl.html", nil)
+	e.GET("/", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "index.tmpl.html", nil)
 	})
 
 	e.Logger.Fatal(e.Start(":" + port))
