@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/hustinheestand/ts/model"
+	"github.com/dustinheestand/ts/model"
 	"github.com/jinzhu/gorm"
 )
 

@@ -10,7 +10,7 @@ import (
 type User struct {
 	gorm.Model
 	Username string `gorm:"unique_index;not null"`
-	Email    string `gorm:"unique_index;not null"`
+	Email    string `gorm:"unique_index"`
 	Password string `gorm:"not null"`
 	Games    []Game `gorm:"many2many:user_games;"`
 }
